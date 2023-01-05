@@ -1,0 +1,23 @@
+.wrapper {
+  background: #ffff;
+  margin: 20px 0px 20px 0px;
+  padding: 0px 20px 0px 20px;
+  border-radius: 15px;
+  border: 10px solid #ededed;
+}
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+.points {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  align-items: baseline;
+  gap: 8px;
+}
+.points span {
+  font-size: 1.8rem;
+}

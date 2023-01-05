@@ -1,24 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, useContext } from "react";
+import styles from "./App.module.css";
+
+import { DUMMY_CARDS } from "./utilities/cards";
+
+import CardBoard from "./components/CardBoard/CardBoard";
+import Player from "./components/Player/Player";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.app}>
+      <div className={styles.game}>
+        <Player playerName="Igor" points={24} />
+        <CardBoard cards={DUMMY_CARDS} />
+      </div>
     </div>
   );
 }

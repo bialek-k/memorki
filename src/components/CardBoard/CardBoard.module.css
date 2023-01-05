@@ -1,0 +1,9 @@
+.cardBoard {
+  background: #ffff;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+  padding: 3rem;
+  border-radius: 15px;
+  border: 10px solid #ededed;
+}
