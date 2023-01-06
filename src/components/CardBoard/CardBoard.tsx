@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./CardBoard.module.css";
 
 import Card from "../Card/Card";
@@ -11,7 +12,7 @@ const CardBoard = ({ cards }: CardBoardProps) => {
   return (
     <div className={styles.cardBoard}>
       {cards.map((card: CardProps) => {
-        return <Card id={card.id} flipped={card.flipped} color={card.color} />;
+        return <Card key={card.id} id={card.id} flipped={card.flipped} color={card.color} />;
       })}
     </div>
   );
