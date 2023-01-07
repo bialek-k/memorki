@@ -1,23 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./Card.module.css";
+
+import { GameContext } from "../../store/game-context";
 
 export type CardProps = {
   id: number;
   flipped: boolean;
-  color: string;
-  onClickHandler: (id: number, flipped: boolean) => void;
+  image: string;
 };
 
-const Card = ({ id, flipped, color, onClickHandler }: CardProps) => {
+const Card = ({ id, flipped, image }: CardProps) => {
+  const { changeCardSide } = useContext(GameContext);
+
   return (
     <div
       className={styles.card}
       key={id}
-      style={flipped ? { backgroundColor: color } : { backgroundColor: "#333" }}
-      onClick={onClickHandler.bind(null, id, flipped)}
-    >
-      {id}
-    </div>
+      style={flipped ? { background: "#221" } : { backgroundColor: "#333" }}
+      onClick={changeCardSide.bind(null, id, image)}
+    ></div>
   );
 };
 

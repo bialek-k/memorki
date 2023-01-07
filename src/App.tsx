@@ -8,7 +8,7 @@ function App() {
   return (
     <div className={styles.app}>
       <div className={styles.game}>
-        <Player playerName="Igor" points={24} />
+        <Player />
         <CardBoard />
       </div>
     </div>
