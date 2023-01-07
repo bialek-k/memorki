@@ -9,52 +9,33 @@ type CardObj = {
 };
 
 type GameContextObj = {
-  cards: CardObj[];
-  initialCards: [];
+  cards: [];
   flipBackCards: () => void;
-  flipClickedCard: () => void;
 };
 
 export const GameContext = createContext<GameContextObj>({
   cards: [],
-  initialCards: [],
   flipBackCards: () => {},
-  flipClickedCard: () => {},
 });
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [initialCards, setInitialCards] = useState(DUMMY_CARDS);
+  const [cards, setCards] = useState(DUMMY_CARDS);
 
   const flipBackCards = () => {
     setTimeout(() => {
-      const flipped = initialCards.map((singleCard) => {
+      const flipped = cards.map((singleCard) => {
         return {
           ...singleCard,
           flipped: !singleCard.flipped,
         };
       });
-      setInitialCards(flipped);
+      setCards(flipped);
     }, 1000);
   };
 
-  const flipClickedCard = (id: number) => {
-    const changedArr: any = initialCards.map((card) => {
-      if (card.id === id) {
-        const changed = {
-          ...card,
-          flipped: !card.flipped,
-        };
-        return changed;
-      }
-      return card;
-    });
-
-    setInitialCards(changedArr);
-  };
-
-  const contextValue: any = { initialCards, flipBackCards, flipClickedCard };
+  const contextValue: any = { cards, flipBackCards };
 
   return (
     <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>

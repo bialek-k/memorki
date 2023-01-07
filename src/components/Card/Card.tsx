@@ -5,7 +5,7 @@ export type CardProps = {
   id: number;
   flipped: boolean;
   color: string;
-  onClickHandler: (id: number) => void;
+  onClickHandler: (id: number, flipped: boolean) => void;
 };
 
 const Card = ({ id, flipped, color, onClickHandler }: CardProps) => {
@@ -14,7 +14,7 @@ const Card = ({ id, flipped, color, onClickHandler }: CardProps) => {
       className={styles.card}
       key={id}
       style={flipped ? { backgroundColor: color } : { backgroundColor: "#333" }}
-      onClick={onClickHandler.bind(null, id)}
+      onClick={onClickHandler.bind(null, id, flipped)}
     >
       {id}
     </div>
