@@ -1,38 +1,75 @@
-/* eslint-disable no-mixed-operators */
-import { useState, createContext } from "react";
+import React, { createContext, useState } from "react";
 
-interface GameContextInterface {
-  endGame: Boolean;
-  setEndGame: () => void;
-  player: String;
-  setPlayer: () => void;
-}
+import { CardsIcons } from "../utilities/cards";
 
-const GameContext = createContext<GameContextInterface>({
-  endGame: false,
-  setEndGame: () => {},
-  player: "igor",
-  setPlayer: () => {},
-});
-
-export const GameContextProvider: React.FC<{ children: React.ReactNode }> = (
-  props
-) => {
-  const [endGame, setEndGame] = useState(false);
-  const [player, setPlayer] = useState("igor");
-
-  return (
-    <GameContext.Provider
-      value={{
-        endGame: endGame,
-        setEndGame
-        player: player,
-        setPlayer,
-      }}
-    >
-      {props.children}
-    </GameContext.Provider>
-  );
+type CardsIconsType = {
+  image: string;
+  id: number;
+  flipped: boolean;
 };
 
-export default GameContext;
+type GameContextObj = {
+  cards: [];
+  flipBackCards: () => void;
+  changeCardSide: () => void;
+  player: string;
+  points: number;
+  setPoints: () => void;
+};
+
+export const GameContext = createContext<GameContextObj>({
+  cards: [],
+  flipBackCards: () => {},
+  changeCardSide: () => {},
+  player: "",
+  points: 0,
+  setPoints: () => {},
+});
+
+export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [cards, setCards] = useState(CardsIcons);
+  const [player, setPlayer] = useState("Igor");
+  const [points, setPoints] = useState(0);
+
+  const flipBackCards = () => {
+    setTimeout(() => {
+      const flipped = cards.map((singleCard) => {
+        return {
+          ...singleCard,
+          flipped: !singleCard.flipped,
+        };
+      });
+      setCards(flipped);
+    }, 3000);
+  };
+
+  const changeCardSide = (id: number, image: string) => {
+    const newArr = cards.map((card: CardsIconsType) => {
+      if (card.id === id) {
+        const newSide = {
+          ...card,
+          flipped: !card.flipped,
+        };
+        return newSide;
+      }
+      return card;
+    });
+    setCards(newArr);
+  };
+
+  const contextValue: any = {
+    cards,
+    flipBackCards,
+    changeCardSide,
+    player,
+    setPlayer,
+    points,
+    setPoints,
+  };
+
+  return (
+    <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>
+  );
+};

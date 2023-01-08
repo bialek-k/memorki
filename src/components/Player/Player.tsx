@@ -1,17 +1,14 @@
-import React from "react";
-
+import React, { useContext } from "react";
 import styles from "./Player.module.css";
 
-export type PlayerProps = {
-  playerName: string;
-  points: number;
-};
+import { GameContext } from "../../store/game-context";
 
-const Player = ({ playerName, points }: PlayerProps) => {
+const Player = () => {
+  const { player, points } = useContext(GameContext);
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        <h1>{playerName}</h1>
+        <h1>{player}</h1>
         <div className={styles.points}>
           <p>Points:</p>
           <span>{points}</span>

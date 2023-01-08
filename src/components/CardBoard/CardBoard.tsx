@@ -1,17 +1,30 @@
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./CardBoard.module.css";
 
 import Card from "../Card/Card";
 import type { CardProps } from "../Card/Card";
 
-type CardBoardProps = {
-  cards: any;
-};
+import { GameContext } from "../../store/game-context";
 
-const CardBoard = ({ cards }: CardBoardProps) => {
+const CardBoard = () => {
+  const { cards, flipBackCards } = useContext(GameContext);
+
+  //Flip cards on the game start
+  useEffect(() => {
+    flipBackCards();
+  }, []);
+
   return (
     <div className={styles.cardBoard}>
       {cards.map((card: CardProps) => {
-        return <Card id={card.id} flipped={card.flipped} color={card.color} />;
+        return (
+          <Card
+            key={card.id}
+            id={card.id}
+            flipped={card.flipped}
+            image={card.image}
+          />
+        );
       })}
     </div>
   );

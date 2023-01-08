@@ -1,8 +1,6 @@
-import { useState, useContext } from "react";
+import React from "react";
+
 import styles from "./App.module.css";
-
-import { DUMMY_CARDS } from "./utilities/cards";
-
 import CardBoard from "./components/CardBoard/CardBoard";
 import Player from "./components/Player/Player";
 
@@ -10,8 +8,8 @@ function App() {
   return (
     <div className={styles.app}>
       <div className={styles.game}>
-        <Player playerName="Igor" points={24} />
-        <CardBoard cards={DUMMY_CARDS} />
+        <Player />
+        <CardBoard />
       </div>
     </div>
   );

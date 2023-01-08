@@ -1,20 +1,27 @@
+import React, { useContext } from "react";
 import styles from "./Card.module.css";
 
+import logo from "../../assets/png/logo.png";
+
+import { GameContext } from "../../store/game-context";
+
 export type CardProps = {
-  id?: string;
-  flipped?: boolean;
-  color?: string;
-  handleClick?: () => void;
+  id: number;
+  flipped: boolean;
+  image: string;
 };
 
-const Card = ({ id, flipped, color, handleClick }: CardProps) => {
+const Card = ({ id, flipped, image }: CardProps) => {
+  const { changeCardSide } = useContext(GameContext);
+
   return (
     <div
       className={styles.card}
       key={id}
-      style={flipped ? { backgroundColor: color } : { backgroundColor: "#333" }}
-      onClick={() => handleClick}
-    ></div>
+      onClick={changeCardSide.bind(null, id, image)}
+    >
+      <img src={flipped ? image : logo} alt="dog" className={styles.image} />
+    </div>
   );
 };
 
