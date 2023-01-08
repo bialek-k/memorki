@@ -9,7 +9,6 @@ import { GameContext } from "../../store/game-context";
 const CardBoard = () => {
   const { cards, flipBackCards } = useContext(GameContext);
 
-  //Flip cards on the game start
   useEffect(() => {
     flipBackCards();
   }, []);

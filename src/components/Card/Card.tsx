@@ -20,7 +20,9 @@ const Card = ({ id, flipped, image }: CardProps) => {
       key={id}
       onClick={changeCardSide.bind(null, id, image)}
     >
-      <img src={flipped ? image : logo} alt="dog" className={styles.image} />
+      <div className={styles.image}>
+        <img src={flipped ? logo : image} alt="dog" />
+      </div>
     </div>
   );
 };
