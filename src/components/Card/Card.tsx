@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import styles from "./Card.module.css";
 
+import logo from "../../assets/png/logo.png";
+
 import { GameContext } from "../../store/game-context";
 
 export type CardProps = {
@@ -16,9 +18,10 @@ const Card = ({ id, flipped, image }: CardProps) => {
     <div
       className={styles.card}
       key={id}
-      style={flipped ? { background: "#221" } : { backgroundColor: "#333" }}
       onClick={changeCardSide.bind(null, id, image)}
-    ></div>
+    >
+      <img src={flipped ? image : logo} alt="dog" className={styles.image} />
+    </div>
   );
 };
 

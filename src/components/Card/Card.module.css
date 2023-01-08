@@ -9,4 +9,11 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+  overflow: hidden;
+}
+.image {
+  min-width: 40%;
+  max-width: 60%;
+  margin: 10px;
+  object-fit: cover;
 }

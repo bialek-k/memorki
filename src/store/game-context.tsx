@@ -42,11 +42,10 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         };
       });
       setCards(flipped);
-    }, 1000);
+    }, 3000);
   };
 
   const changeCardSide = (id: number, image: string) => {
-    console.log(image);
     const newArr = cards.map((card: CardsIconsType) => {
       if (card.id === id) {
         const newSide = {
