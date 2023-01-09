@@ -81,7 +81,14 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         setSecondChoice([]);
       }
       if (firstChoice[0].image !== secondChoice[0].image) {
-        console.log("flip Back this cards");
+        const cardsToFlipBack = [...firstChoice, ...secondChoice];
+        console.log(cardsToFlipBack);
+        console.log(cards);
+
+        // arra1 = arra1.map(item => {
+        //   const item2 = arra2.find(i2 => i2.transid === item.transid);
+        //   return item2 ? { ...item, ...item2 } : item;
+        // });
       }
     }
   }, [firstChoice, secondChoice]);
