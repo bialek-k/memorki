@@ -41,7 +41,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
       const flipped = cards.map((singleCard) => {
         return {
           ...singleCard,
-          flipped: !singleCard.flipped,
+          flipped: false,
         };
       });
       setCards(flipped);
@@ -81,14 +81,20 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         setSecondChoice([]);
       }
       if (firstChoice[0].image !== secondChoice[0].image) {
-        const cardsToFlipBack = [...firstChoice, ...secondChoice];
-        console.log(cardsToFlipBack);
-        console.log(cards);
+        const cardsToFlipBack = [firstChoice[0].id, secondChoice[0].id];
 
-        // arra1 = arra1.map(item => {
-        //   const item2 = arra2.find(i2 => i2.transid === item.transid);
-        //   return item2 ? { ...item, ...item2 } : item;
-        // });
+        const updatedCards = cards.map((card: any) => {
+          if (cardsToFlipBack.includes(card.id)) {
+            return { ...card, flipped: !card.flipped };
+          }
+          return card;
+        });
+
+        setTimeout(() => {
+          setCards(updatedCards);
+          setFirstChoice([]);
+          setSecondChoice([]);
+        }, 1000);
       }
     }
   }, [firstChoice, secondChoice]);
