@@ -1,5 +1,6 @@
 .app {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   background-image: url("./assets/Background.svg");
@@ -23,14 +24,3 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.422);
 }
-
-/* .card {
-  width: 120px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 120px;
-  background: red;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.681);
-} */
