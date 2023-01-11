@@ -6,6 +6,7 @@ type CardsIconsType = {
   image: string;
   id: number;
   flipped: boolean;
+  matched: boolean;
 };
 
 type GameContextObj = {
@@ -15,6 +16,7 @@ type GameContextObj = {
   player: string;
   points: number;
   setPoints: () => void;
+  finishGame: boolean;
 };
 
 export const GameContext = createContext<GameContextObj>({
@@ -24,6 +26,7 @@ export const GameContext = createContext<GameContextObj>({
   player: "",
   points: 0,
   setPoints: () => {},
+  finishGame: false,
 });
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -35,6 +38,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [firstChoice, setFirstChoice] = useState<CardsIconsType[]>([]);
   const [secondChoice, setSecondChoice] = useState<CardsIconsType[]>([]);
   const [foundedCards, setFoundedCards] = useState<CardsIconsType[]>([]);
+  const [finishGame, setFinishGame] = useState(false);
 
   const flipBackCards = () => {
     setTimeout(() => {
@@ -73,13 +77,35 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const matchedCardHandler = () => {
+    const matchedCards: any = cards.map((card) => {
+      if (card.flipped === true) {
+        return {
+          ...card,
+          matched: true,
+        };
+      }
+      return card;
+    });
+    setCards(matchedCards);
+  };
+
+  const finishGameHandler = () => {
+    const allMatchedCards = cards.filter((card) => card.matched === true);
+    if (allMatchedCards.length === cards.length) {
+      setFinishGame(true);
+    }
+  };
+
   useEffect(() => {
     if (firstChoice.length === 1 && secondChoice.length === 1) {
       if (firstChoice[0].image === secondChoice[0].image) {
         setFoundedCards(firstChoice);
         setFirstChoice([]);
         setSecondChoice([]);
+        matchedCardHandler();
       }
+
       if (firstChoice[0].image !== secondChoice[0].image) {
         const cardsToFlipBack = [firstChoice[0].id, secondChoice[0].id];
 
@@ -97,6 +123,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         }, 1000);
       }
     }
+    finishGameHandler();
   }, [firstChoice, secondChoice]);
 
   const contextValue: any = {
@@ -107,6 +134,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setPlayer,
     points,
     setPoints,
+    finishGame,
   };
 
   return (
