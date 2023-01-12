@@ -22,12 +22,19 @@ const Settings = ({ setShowSetting }: any) => {
           <h1>Ustawienia</h1>
           <form className={styles.form}>
             <label>
-              Dźwięk: <input name="name" />
+              Dźwięk:{" "}
+              <input type="range" min="1" max="100" className={styles.slider} />
             </label>
             <label>
-              Czas otwarcia: <input name="name" type="number" />
+              Czas otwarcia:{" "}
+              <div className={styles.timeControls}>
+                <button>-</button>
+                <input type="number" className={styles.timeInput} />
+                <button>+</button>
+              </div>
             </label>
           </form>
+          <button type="submit">Zapisz</button>
         </div>
       </div>
     </div>,

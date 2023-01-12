@@ -34,14 +34,16 @@ function App() {
   return (
     <div className={styles.app}>
       {showSetting && <Settings setShowSetting={setShowSetting} />}
-      <SettingsIcon
-        fill="white"
-        stroke="white"
-        strokeWidth="15"
-        className={styles.settingsBtn}
-        onClick={() => setShowSetting(true)}
-      />
       <div className={styles.game}>
+        <div className={styles.settingIcon}>
+          <SettingsIcon
+            fill="white"
+            stroke="white"
+            strokeWidth="15"
+            className={styles.settingsBtn}
+            onClick={() => setShowSetting(true)}
+          />
+        </div>
         <Player />
         <CardBoard />
       </div>
