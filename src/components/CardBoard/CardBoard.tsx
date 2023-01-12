@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./CardBoard.module.css";
 
 import Card from "../Card/Card";
@@ -9,7 +9,6 @@ import { GameContext } from "../../store/game-context";
 const CardBoard = () => {
   const { cards, flipBackCards } = useContext(GameContext);
 
-  //Flip cards on the game start
   useEffect(() => {
     flipBackCards();
   }, []);
@@ -23,6 +22,7 @@ const CardBoard = () => {
             id={card.id}
             flipped={card.flipped}
             image={card.image}
+            matched={card.matched}
           />
         );
       })}

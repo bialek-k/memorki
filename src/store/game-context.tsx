@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 import { CardsIcons } from "../utilities/cards";
 
@@ -6,6 +6,7 @@ type CardsIconsType = {
   image: string;
   id: number;
   flipped: boolean;
+  matched: boolean;
 };
 
 type GameContextObj = {
@@ -13,8 +14,10 @@ type GameContextObj = {
   flipBackCards: () => void;
   changeCardSide: () => void;
   player: string;
+  setPlayer: (name: string | undefined) => void;
   points: number;
   setPoints: () => void;
+  finishGame: boolean;
 };
 
 export const GameContext = createContext<GameContextObj>({
@@ -22,8 +25,10 @@ export const GameContext = createContext<GameContextObj>({
   flipBackCards: () => {},
   changeCardSide: () => {},
   player: "",
+  setPlayer: (name) => {},
   points: 0,
   setPoints: () => {},
+  finishGame: false,
 });
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -32,17 +37,21 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cards, setCards] = useState(CardsIcons);
   const [player, setPlayer] = useState("Igor");
   const [points, setPoints] = useState(0);
+  const [firstChoice, setFirstChoice] = useState<CardsIconsType[]>([]);
+  const [secondChoice, setSecondChoice] = useState<CardsIconsType[]>([]);
+  const [foundedCards, setFoundedCards] = useState<CardsIconsType[]>([]);
+  const [finishGame, setFinishGame] = useState(false);
 
   const flipBackCards = () => {
     setTimeout(() => {
       const flipped = cards.map((singleCard) => {
         return {
           ...singleCard,
-          flipped: !singleCard.flipped,
+          flipped: false,
         };
       });
       setCards(flipped);
-    }, 3000);
+    }, 1000);
   };
 
   const changeCardSide = (id: number, image: string) => {
@@ -52,12 +61,72 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
           ...card,
           flipped: !card.flipped,
         };
+        setCardsHandler(card.id);
         return newSide;
       }
       return card;
     });
     setCards(newArr);
   };
+
+  const setCardsHandler = (id: number) => {
+    if (firstChoice.length === 0) {
+      const firstCard = cards.filter((card) => card.id === id);
+      setFirstChoice(firstCard);
+    } else {
+      const secondCard = cards.filter((card) => card.id === id);
+      setSecondChoice(secondCard);
+    }
+  };
+
+  const matchedCardHandler = () => {
+    const matchedCards: any = cards.map((card) => {
+      if (card.flipped === true) {
+        return {
+          ...card,
+          matched: true,
+        };
+      }
+      return card;
+    });
+    setCards(matchedCards);
+  };
+
+  const finishGameHandler = () => {
+    const allMatchedCards = cards.filter((card) => card.matched === true);
+    if (allMatchedCards.length === cards.length) {
+      setFinishGame(true);
+    }
+  };
+
+  useEffect(() => {
+    if (firstChoice.length === 1 && secondChoice.length === 1) {
+      if (firstChoice[0].image === secondChoice[0].image) {
+        setFoundedCards(firstChoice);
+        setFirstChoice([]);
+        setSecondChoice([]);
+        matchedCardHandler();
+      }
+
+      if (firstChoice[0].image !== secondChoice[0].image) {
+        const cardsToFlipBack = [firstChoice[0].id, secondChoice[0].id];
+
+        const updatedCards = cards.map((card: any) => {
+          if (cardsToFlipBack.includes(card.id)) {
+            return { ...card, flipped: !card.flipped };
+          }
+          return card;
+        });
+
+        setTimeout(() => {
+          setCards(updatedCards);
+          setFirstChoice([]);
+          setSecondChoice([]);
+        }, 1000);
+      }
+    }
+    finishGameHandler();
+  }, [firstChoice, secondChoice]);
 
   const contextValue: any = {
     cards,
@@ -67,6 +136,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setPlayer,
     points,
     setPoints,
+    finishGame,
   };
 
   return (

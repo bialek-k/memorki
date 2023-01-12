@@ -9,18 +9,22 @@ export type CardProps = {
   id: number;
   flipped: boolean;
   image: string;
+  matched: boolean;
 };
 
-const Card = ({ id, flipped, image }: CardProps) => {
+const Card = ({ id, flipped, image, matched }: CardProps) => {
   const { changeCardSide } = useContext(GameContext);
 
   return (
     <div
       className={styles.card}
+      style={matched ? { backgroundColor: "green" } : { backgroundColor: "" }}
       key={id}
       onClick={changeCardSide.bind(null, id, image)}
     >
-      <img src={flipped ? image : logo} alt="dog" className={styles.image} />
+      <div className={styles.image}>
+        <img src={flipped ? image : logo} alt="dog" />
+      </div>
     </div>
   );
 };
