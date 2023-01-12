@@ -14,6 +14,7 @@ type GameContextObj = {
   flipBackCards: () => void;
   changeCardSide: () => void;
   player: string;
+  setPlayer: (name: string | undefined) => void;
   points: number;
   setPoints: () => void;
   finishGame: boolean;
@@ -24,6 +25,7 @@ export const GameContext = createContext<GameContextObj>({
   flipBackCards: () => {},
   changeCardSide: () => {},
   player: "",
+  setPlayer: (name) => {},
   points: 0,
   setPoints: () => {},
   finishGame: false,

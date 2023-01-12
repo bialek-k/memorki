@@ -11,7 +11,7 @@ import NewPlayer from "./components/Modals/NewPlayer/NewPlayer";
 
 function App() {
   const { finishGame } = useContext(GameContext);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   if (finishGame) {
     return (
