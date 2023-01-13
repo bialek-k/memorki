@@ -11,14 +11,17 @@ import NewPlayer from "./components/Modals/NewPlayer/NewPlayer";
 import Settings from "./components/Modals/Settings/Settings";
 
 function App() {
-  const { finishGame } = useContext(GameContext);
-  const [showNewPlayer, setShowNewPlayer] = useState(false);
+  const { finishGame, player } = useContext(GameContext);
+  const [showNewPlayer, setShowNewPlayer] = useState(true);
   const [showSetting, setShowSetting] = useState(false);
 
-  if (showNewPlayer) {
+  if (showNewPlayer && player === "") {
     return (
       <div className={styles.app}>
-        <NewPlayer setShowNewPlayer={setShowNewPlayer} />
+        <NewPlayer
+          setShowNewPlayer={setShowNewPlayer}
+          showNewPlayer={showNewPlayer}
+        />
       </div>
     );
   }

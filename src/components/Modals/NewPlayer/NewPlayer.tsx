@@ -7,19 +7,33 @@ import { GameContext } from "../../../store/game-context";
 
 import styles from "./NewPlayer.module.scss";
 
-const NewPlayer = ({ setShowNewPlayer }: any) => {
+interface NewPlayerProps {
+  setShowNewPlayer: React.Dispatch<React.SetStateAction<boolean>>;
+  showNewPlayer: boolean;
+}
+
+const NewPlayer = ({ setShowNewPlayer, showNewPlayer }: NewPlayerProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { setPlayer } = useContext(GameContext);
 
-  const submitHandler = (e: any) => {
+  const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    setPlayer(inputRef?.current?.value);
 
+    if (inputRef.current !== null) {
+      const playerName = inputRef.current.value;
+      setPlayer(playerName);
+    }
     setShowNewPlayer(false);
   };
 
+  const closeModalHandler = () => {
+    if (showNewPlayer) {
+      setShowNewPlayer(false);
+    }
+  };
+
   return ReactDOM.createPortal(
-    <div onClick={() => setShowNewPlayer(false)} className={styles.backdrop}>
+    <div onClick={() => closeModalHandler} className={styles.backdrop}>
       <div onClick={(e) => e.stopPropagation()} className={styles.wrapper}>
         <div className={styles.content}>
           <Close

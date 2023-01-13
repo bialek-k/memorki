@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 
 import { CardsIcons } from "../utilities/cards";
 
-type CardsIconsType = {
+type Cards = {
   image: string;
   id: number;
   flipped: boolean;
@@ -10,13 +10,13 @@ type CardsIconsType = {
 };
 
 type GameContextObj = {
-  cards: [];
+  cards: Cards[];
   flipBackCards: () => void;
-  changeCardSide: () => void;
+  changeCardSide: (id: number) => void;
   player: string;
-  setPlayer: (name: string | undefined) => void;
+  setPlayer: (name: string) => void;
   points: number;
-  setPoints: () => void;
+  setPoints: (points: number) => void;
   finishGame: boolean;
 };
 
@@ -29,17 +29,17 @@ export const GameContext = createContext<GameContextObj>({
   points: 0,
   setPoints: () => {},
   finishGame: false,
-});
+} as GameContextObj);
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cards, setCards] = useState(CardsIcons);
-  const [player, setPlayer] = useState("Igor");
+  const [player, setPlayer] = useState("");
   const [points, setPoints] = useState(0);
-  const [firstChoice, setFirstChoice] = useState<CardsIconsType[]>([]);
-  const [secondChoice, setSecondChoice] = useState<CardsIconsType[]>([]);
-  const [foundedCards, setFoundedCards] = useState<CardsIconsType[]>([]);
+  const [firstChoice, setFirstChoice] = useState<Cards[]>([]);
+  const [secondChoice, setSecondChoice] = useState<Cards[]>([]);
+  const [foundedCards, setFoundedCards] = useState<Cards[]>([]);
   const [finishGame, setFinishGame] = useState(false);
 
   const flipBackCards = () => {
@@ -54,8 +54,8 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }, 1000);
   };
 
-  const changeCardSide = (id: number, image: string) => {
-    const newArr = cards.map((card: CardsIconsType) => {
+  const changeCardSide = (id: number) => {
+    const newArr = cards.map((card: Cards) => {
       if (card.id === id) {
         const newSide = {
           ...card,
@@ -80,7 +80,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const matchedCardHandler = () => {
-    const matchedCards: any = cards.map((card) => {
+    const matchedCards: Cards[] = cards.map((card) => {
       if (card.flipped === true) {
         return {
           ...card,
@@ -128,7 +128,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     finishGameHandler();
   }, [firstChoice, secondChoice]);
 
-  const contextValue: any = {
+  const contextValue: GameContextObj = {
     cards,
     flipBackCards,
     changeCardSide,

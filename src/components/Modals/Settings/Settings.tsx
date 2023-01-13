@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
 import { ReactComponent as Close } from "../../../assets/close.svg";
-
-import { GameContext } from "../../../store/game-context";
-
 import styles from "./Settings.module.scss";
 
-const Settings = ({ setShowSetting }: any) => {
+interface SettingsProps {
+  setShowSetting: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Settings = ({ setShowSetting }: SettingsProps) => {
   return ReactDOM.createPortal(
     <div onClick={() => setShowSetting(false)} className={styles.backdrop}>
       <div onClick={(e) => e.stopPropagation()} className={styles.wrapper}>
