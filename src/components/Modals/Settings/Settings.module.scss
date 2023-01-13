@@ -43,7 +43,7 @@
     h1 {
       line-height: 5px;
     }
-    .form {
+    .controls {
       font-size: 1.5rem;
       font-weight: bold;
 
@@ -52,42 +52,21 @@
         justify-content: center;
         align-items: center;
         gap: 14px;
+      }
+      .action {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0px;
 
-        .timeControls {
-          display: flex;
-          gap: 5px;
-          button,
-          input {
-            background: rgba(238, 238, 238, 0.2);
-            width: 40px;
-            height: 40px;
-            border-radius: 5px;
-            border: none;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            color: white;
-            font-size: 1.4rem;
-            font-weight: bold;
-
-            &::-webkit-outer-spin-button,
-            &::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
-            }
-          }
-
-          // input {
-          //   background: rgba(238, 238, 238, 0.2);
-          //   border-radius: 10px;
-          //   border: none;
-          //   padding: 10px 5px 10px 5px;
-          //   width: 50%;
-          //   text-align: center;
-          //   font-size: 1.6rem;
-          //   font-weight: bold;
-          //   color: white;
-          // }
+        button {
+          background: rgba(238, 238, 238, 0.2);
+          padding: 5px 20px;
+          border: none;
+          border-radius: 5px;
+          font-size: 1rem;
+          font-weight: bold;
+          color: white;
+          cursor: pointer;
         }
       }
     }

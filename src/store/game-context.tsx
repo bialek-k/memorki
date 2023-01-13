@@ -20,8 +20,6 @@ type GameContextObj = {
   points: number;
   setPoints: (points: number) => void;
   finishGame: boolean;
-  openCardsTime: number;
-  setOpenCardsTime: (time: number) => void;
 };
 
 export const GameContext = createContext<GameContextObj>({
@@ -33,8 +31,6 @@ export const GameContext = createContext<GameContextObj>({
   points: 0,
   setPoints: () => {},
   finishGame: false,
-  openCardsTime: 1,
-  setOpenCardsTime: () => {},
 } as GameContextObj);
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -47,12 +43,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [secondChoice, setSecondChoice] = useState<Cards[]>([]);
   const [foundedCards, setFoundedCards] = useState<Cards[]>([]);
   const [finishGame, setFinishGame] = useState(false);
-  const [openCardsTime, setOpenCardsTime] = useState(1);
-  const [sec, setSec] = useLocalStorage("open-cards", openCardsTime);
-
-  useEffect(() => {
-    setSec(openCardsTime);
-  }, [openCardsTime]);
+  const [value] = useLocalStorage("open-time");
 
   useEffect(() => {
     const localData = localStorage.getItem("player");
@@ -68,7 +59,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         };
       });
       setCards(flipped);
-    }, openCardsTime * 1000);
+    }, JSON.parse(value) * 1000);
   };
 
   const changeCardSide = (id: number) => {
@@ -154,8 +145,6 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     points,
     setPoints,
     finishGame,
-    openCardsTime,
-    setOpenCardsTime,
   };
 
   return (

@@ -5,13 +5,15 @@ import Card from "../Card/Card";
 import type { CardProps } from "../Card/Card";
 
 import { GameContext } from "../../store/game-context";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const CardBoard = () => {
-  const { cards, flipBackCards, openCardsTime } = useContext(GameContext);
+  const { cards, flipBackCards } = useContext(GameContext);
+  const [value] = useLocalStorage("open-time");
 
   useEffect(() => {
     flipBackCards();
-  }, [openCardsTime]);
+  }, []);
 
   return (
     <div className={styles.cardBoard}>
