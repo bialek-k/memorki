@@ -22,6 +22,7 @@ const NewPlayer = ({ setShowNewPlayer, showNewPlayer }: NewPlayerProps) => {
     if (inputRef.current !== null) {
       const playerName = inputRef.current.value;
       setPlayer(playerName);
+      localStorage.setItem("player", JSON.stringify(playerName));
     }
     setShowNewPlayer(false);
   };
@@ -33,7 +34,7 @@ const NewPlayer = ({ setShowNewPlayer, showNewPlayer }: NewPlayerProps) => {
   };
 
   return ReactDOM.createPortal(
-    <div onClick={() => closeModalHandler} className={styles.backdrop}>
+    <div onClick={closeModalHandler} className={styles.backdrop}>
       <div onClick={(e) => e.stopPropagation()} className={styles.wrapper}>
         <div className={styles.content}>
           <Close

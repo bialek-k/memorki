@@ -12,6 +12,10 @@
   display: flex;
   justify-content: space-between;
 }
+.content h1 {
+  cursor: pointer;
+}
+
 .points {
   font-size: 1.2rem;
   font-weight: bold;

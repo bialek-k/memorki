@@ -42,6 +42,11 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [foundedCards, setFoundedCards] = useState<Cards[]>([]);
   const [finishGame, setFinishGame] = useState(false);
 
+  useEffect(() => {
+    const localData = localStorage.getItem("player");
+    if (localData !== null) setPlayer(JSON.parse(localData));
+  }, []);
+
   const flipBackCards = () => {
     setTimeout(() => {
       const flipped = cards.map((singleCard) => {
