@@ -7,11 +7,11 @@ import type { CardProps } from "../Card/Card";
 import { GameContext } from "../../store/game-context";
 
 const CardBoard = () => {
-  const { cards, flipBackCards } = useContext(GameContext);
+  const { cards, flipBackCards, openCardsTime } = useContext(GameContext);
 
   useEffect(() => {
     flipBackCards();
-  }, []);
+  }, [openCardsTime]);
 
   return (
     <div className={styles.cardBoard}>

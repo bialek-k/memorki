@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./App.module.scss";
 
 import { GameContext } from "./store/game-context";
@@ -15,6 +15,13 @@ function App() {
   const [showNewPlayer, setShowNewPlayer] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
 
+  useEffect(() => {
+    const localData = localStorage.getItem("player");
+    if (localData == null) {
+      setShowNewPlayer(true);
+    }
+  }, []);
+
   if (finishGame) {
     return (
       <div>
@@ -25,26 +32,31 @@ function App() {
 
   return (
     <div className={styles.app}>
-      {showSetting && <Settings setShowSetting={setShowSetting} />}
       {showNewPlayer && (
         <NewPlayer
           setShowNewPlayer={setShowNewPlayer}
           showNewPlayer={showNewPlayer}
         />
       )}
-      <div className={styles.game}>
-        <div className={styles.settingIcon}>
-          <SettingsIcon
-            fill="white"
-            stroke="white"
-            strokeWidth="15"
-            className={styles.settingsBtn}
-            onClick={() => setShowSetting(true)}
-          />
-        </div>
-        <Player setShowNewPlayer={setShowNewPlayer} />
-        <CardBoard />
-      </div>
+      {player !== "" && (
+        <>
+          {showSetting && <Settings setShowSetting={setShowSetting} />}
+          <div className={styles.game}>
+            <div className={styles.settingIcon}>
+              <SettingsIcon
+                fill="white"
+                stroke="white"
+                strokeWidth="15"
+                className={styles.settingsBtn}
+                onClick={() => setShowSetting(true)}
+              />
+            </div>
+
+            <Player setShowNewPlayer={setShowNewPlayer} />
+            <CardBoard />
+          </div>
+        </>
+      )}
     </div>
   );
 }
