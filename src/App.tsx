@@ -3,6 +3,8 @@ import styles from "./App.module.scss";
 
 import { GameContext } from "./store/game-context";
 
+import useLocalStorage from "./hooks/useLocalStorage";
+
 import { ReactComponent as SettingsIcon } from "./assets/settings.svg";
 
 import CardBoard from "./components/CardBoard/CardBoard";

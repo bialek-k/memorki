@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 
 import { CardsIcons } from "../utilities/cards";
 
+import useLocalStorage from "../hooks/useLocalStorage";
+
 type Cards = {
   image: string;
   id: number;
@@ -46,6 +48,11 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [foundedCards, setFoundedCards] = useState<Cards[]>([]);
   const [finishGame, setFinishGame] = useState(false);
   const [openCardsTime, setOpenCardsTime] = useState(1);
+  const [sec, setSec] = useLocalStorage("open-cards", openCardsTime);
+
+  useEffect(() => {
+    setSec(openCardsTime);
+  }, [openCardsTime]);
 
   useEffect(() => {
     const localData = localStorage.getItem("player");
