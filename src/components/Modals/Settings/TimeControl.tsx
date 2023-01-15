@@ -1,15 +1,16 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import styles from "./TimeControl.module.scss";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 
 const TimeControl = () => {
-  const [value, setValue] = useLocalStorage("open-time", JSON.stringify(1));
+  const { value, setValue } = useLocalStorage("open-time");
 
   return (
     <label>
       Czas otwarcia:{" "}
       <div className={styles.timeControls}>
         <button
+          disabled={JSON.parse(value) < 1}
           type="button"
           onClick={() =>
             setValue(() => {
@@ -20,7 +21,7 @@ const TimeControl = () => {
         >
           -
         </button>
-        <input type="number" value={value} className={styles.timeInput} />
+        <p className={styles.timeValue}>{value}</p>
         <button
           type="button"
           onClick={() => setValue(JSON.stringify(JSON.parse(value) + 1))}

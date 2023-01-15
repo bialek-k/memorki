@@ -1,0 +1,56 @@
+.background {
+  background-image: url("../../assets/Background.svg");
+  background-repeat: none;
+  background-size: cover;
+  background-position: center;
+}
+.clouds {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  .cloud2 {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    animation: cloud1Animation 200s;
+  }
+  .cloud3 {
+    position: absolute;
+    top: 35%;
+    left: 5%;
+    animation: cloud2Animation 150s;
+  }
+  .cloud4 {
+    position: absolute;
+    top: 7%;
+    right: 4%;
+    animation: cloud3Animation 200s;
+  }
+}
+
+@keyframes cloud2Animation {
+  0% {
+    transform: translateX(50%);
+  }
+  50% {
+    transform: translateX(180%);
+  }
+}
+@keyframes cloud2Animation {
+  0% {
+    transform: translateX(-20%);
+  }
+  50% {
+    transform: translateX(140%);
+  }
+}
+@keyframes cloud3Animation {
+  0% {
+    transform: translateX(-150%);
+  }
+  50% {
+    transform: translateX(170%);
+  }
+}

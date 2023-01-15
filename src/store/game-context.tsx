@@ -20,6 +20,8 @@ type GameContextObj = {
   points: number;
   setPoints: (points: number) => void;
   finishGame: boolean;
+  openCardsTime: number;
+  setOpenCardsTime: any;
 };
 
 export const GameContext = createContext<GameContextObj>({
@@ -31,6 +33,8 @@ export const GameContext = createContext<GameContextObj>({
   points: 0,
   setPoints: () => {},
   finishGame: false,
+  openCardsTime: 1,
+  setOpenCardsTime: () => {},
 } as GameContextObj);
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -41,25 +45,28 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [points, setPoints] = useState(0);
   const [firstChoice, setFirstChoice] = useState<Cards[]>([]);
   const [secondChoice, setSecondChoice] = useState<Cards[]>([]);
-  const [foundedCards, setFoundedCards] = useState<Cards[]>([]);
   const [finishGame, setFinishGame] = useState(false);
-  const [value] = useLocalStorage("open-time");
+  const { value } = useLocalStorage("open-time");
+  const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
 
   useEffect(() => {
     const localData = localStorage.getItem("player");
     if (localData !== null) setPlayer(JSON.parse(localData));
   }, []);
 
+  const flipOnStart = (open: boolean) =>
+    cards.map((singleCard) => {
+      return {
+        ...singleCard,
+        flipped: open ? false : true,
+      };
+    });
+
   const flipBackCards = () => {
+    setCards(flipOnStart(false));
     setTimeout(() => {
-      const flipped = cards.map((singleCard) => {
-        return {
-          ...singleCard,
-          flipped: false,
-        };
-      });
-      setCards(flipped);
-    }, JSON.parse(value) * 1000);
+      setCards(flipOnStart(true));
+    }, openCardsTime * 1000);
   };
 
   const changeCardSide = (id: number) => {
@@ -110,7 +117,6 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (firstChoice.length === 1 && secondChoice.length === 1) {
       if (firstChoice[0].image === secondChoice[0].image) {
-        setFoundedCards(firstChoice);
         setFirstChoice([]);
         setSecondChoice([]);
         matchedCardHandler();
@@ -145,6 +151,8 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     points,
     setPoints,
     finishGame,
+    openCardsTime,
+    setOpenCardsTime,
   };
 
   return (

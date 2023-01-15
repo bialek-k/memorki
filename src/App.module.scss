@@ -3,20 +3,25 @@
   position: relative;
   justify-content: center;
   align-items: center;
-  background-image: url("./assets/Background.svg");
-  background-repeat: none;
-  background-size: cover;
-  background-position: center;
   height: 100vh;
 
   .game {
     display: flex;
+    position: absolute;
     flex-direction: column;
     justify-items: flex-end;
     position: relative;
+
+    .ryder {
+      position: absolute;
+      left: 20px;
+      top: 0;
+      z-index: 10;
+    }
   }
   .settingIcon {
     display: flex;
+    gap: 10px;
     justify-content: flex-end;
     .settingsBtn {
       cursor: pointer;

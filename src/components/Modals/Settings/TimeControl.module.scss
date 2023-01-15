@@ -1,8 +1,11 @@
 .timeControls {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
-  button,
-  input {
+
+  .timeValue,
+  button {
     background: rgba(238, 238, 238, 0.2);
     width: 40px;
     height: 40px;

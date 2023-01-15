@@ -30,5 +30,5 @@ export default function useLocalStorage<Type>(
     setStoredValue(value);
   }, [value, setStoredValue]);
 
-  return [value, setValue];
+  return { value, setValue };
 }
