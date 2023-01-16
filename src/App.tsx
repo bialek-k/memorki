@@ -20,10 +20,6 @@ function App() {
   const [showNewPlayer, setShowNewPlayer] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
 
-  useEffect(() => {
-    flipBackCards();
-  }, []);
-
   const refreshHandler = () => {
     flipBackCards();
   };

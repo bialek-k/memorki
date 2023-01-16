@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./TimeControl.module.scss";
 import useLocalStorage from "../../../hooks/useLocalStorage";
+import { GameContext } from "../../../store/game-context";
 
 const TimeControl = () => {
+  const { setOpenCardsTime } = useContext(GameContext);
   const { value, setValue } = useLocalStorage("open-time");
+
+  useEffect(() => {
+    setOpenCardsTime(JSON.parse(value));
+  }, [value]);
 
   return (
     <label>

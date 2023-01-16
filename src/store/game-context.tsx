@@ -46,12 +46,16 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [firstChoice, setFirstChoice] = useState<Cards[]>([]);
   const [secondChoice, setSecondChoice] = useState<Cards[]>([]);
   const [finishGame, setFinishGame] = useState(false);
-  const { value } = useLocalStorage("open-time");
+  const { value } = useLocalStorage("open-time", 1);
   const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
 
+  //Initial localStorage state
   useEffect(() => {
     const localData = localStorage.getItem("player");
-    if (localData !== null) setPlayer(JSON.parse(localData));
+    if (localData !== null) {
+      setPlayer(JSON.parse(localData));
+      setOpenCardsTime(1);
+    }
   }, []);
 
   const flipOnStart = (open: boolean) =>

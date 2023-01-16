@@ -14,8 +14,9 @@
 
     .ryder {
       position: absolute;
-      left: 20px;
-      top: 0;
+      left: -150px;
+      top: 150px;
+      transform: rotate(-30deg);
       z-index: 10;
     }
   }
