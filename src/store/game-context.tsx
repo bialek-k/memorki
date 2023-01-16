@@ -3,12 +3,14 @@ import React, { createContext, useEffect, useState } from "react";
 import { CardsIcons } from "../utilities/cards";
 
 import useLocalStorage from "../hooks/useLocalStorage";
+import { CardProps } from "../components/Card/Card";
 
 type Cards = {
   image: string;
   id: number;
   flipped: boolean;
   matched: boolean;
+  selected: boolean;
 };
 
 type GameContextObj = {
@@ -58,7 +60,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  const flipOnStart = (open: boolean) =>
+  const flipOnStart = (open: boolean, cards: CardProps[]) =>
     cards.map((singleCard) => {
       return {
         ...singleCard,
@@ -67,9 +69,11 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     });
 
   const flipBackCards = () => {
-    setCards(flipOnStart(false));
+    const mixedCards = cards.sort(() => Math.random() - 0.5);
+
+    setCards(flipOnStart(false, mixedCards));
     setTimeout(() => {
-      setCards(flipOnStart(true));
+      setCards(flipOnStart(true, mixedCards));
     }, openCardsTime * 1000);
   };
 
@@ -79,6 +83,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         const newSide = {
           ...card,
           flipped: !card.flipped,
+          selected: !card.selected,
         };
         setCardsHandler(card.id);
         return newSide;
@@ -89,14 +94,15 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const setCardsHandler = (id: number) => {
-    if (firstChoice.length === 0) {
-      const firstCard = cards.filter((card) => card.id === id);
-      setFirstChoice(firstCard);
-    } else {
-      const secondCard = cards.filter((card) => card.id === id);
-      setSecondChoice(secondCard);
-    }
+    const newCard = cards.filter((card) => card.id === id);
+    firstChoice.length ? setSecondChoice(newCard) : setFirstChoice(newCard);
   };
+
+  const preventThirdClick = () => {};
+
+  useEffect(() => {
+    if (secondChoice.length) preventThirdClick();
+  }, [secondChoice]);
 
   const matchedCardHandler = () => {
     const matchedCards: Cards[] = cards.map((card) => {
@@ -131,7 +137,10 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
         const updatedCards = cards.map((card: any) => {
           if (cardsToFlipBack.includes(card.id)) {
-            return { ...card, flipped: !card.flipped };
+            return {
+              ...card,
+              flipped: !card.flipped,
+            };
           }
           return card;
         });
@@ -144,7 +153,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     }
     finishGameHandler();
-  }, [firstChoice, secondChoice]);
+  }, [firstChoice, secondChoice, cards]);
 
   const contextValue: GameContextObj = {
     cards,

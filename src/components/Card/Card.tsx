@@ -10,6 +10,7 @@ export type CardProps = {
   flipped: boolean;
   image: string;
   matched: boolean;
+  selected: boolean;
 };
 
 const Card = ({ id, flipped, image, matched }: CardProps) => {

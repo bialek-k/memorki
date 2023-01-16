@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styles from "./CardBoard.module.css";
 
 import Card from "../Card/Card";
@@ -18,6 +18,7 @@ const CardBoard = () => {
             flipped={card.flipped}
             image={card.image}
             matched={card.matched}
+            selected={card.selected}
           />
         );
       })}

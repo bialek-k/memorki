@@ -25,6 +25,7 @@ function App() {
   };
 
   useEffect(() => {
+    flipBackCards();
     const localData = localStorage.getItem("player");
     if (localData == null) {
       setShowNewPlayer(true);
