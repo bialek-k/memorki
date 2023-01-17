@@ -3,7 +3,6 @@ import React, { createContext, useEffect, useState } from "react";
 import { CardsIcons } from "../utilities/cards";
 
 import useLocalStorage from "../hooks/useLocalStorage";
-import { CardProps } from "../components/Card/Card";
 
 type Cards = {
   image: string;
@@ -45,8 +44,8 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cards, setCards] = useState(CardsIcons);
   const [player, setPlayer] = useState("");
   const [points, setPoints] = useState(0);
-  const [firstChoice, setFirstChoice] = useState<Cards[]>([]);
-  const [secondChoice, setSecondChoice] = useState<Cards[]>([]);
+  const [firstChoice, setFirstChoice] = useState<any>({});
+  const [secondChoice, setSecondChoice] = useState<any>({});
   const [finishGame, setFinishGame] = useState(false);
   const { value } = useLocalStorage("open-time", 1);
   const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
@@ -60,7 +59,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  const flipOnStart = (open: boolean, cards: CardProps[]) =>
+  const flipOnStart = (open: boolean, cards: Cards[]) =>
     cards.map((singleCard) => {
       return {
         ...singleCard,
@@ -94,15 +93,11 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const setCardsHandler = (id: number) => {
-    const newCard = cards.filter((card) => card.id === id);
-    firstChoice.length ? setSecondChoice(newCard) : setFirstChoice(newCard);
+    const selectedCard = cards.find((card) => card.id === id);
+    Object.keys(firstChoice).length
+      ? setSecondChoice(selectedCard)
+      : setFirstChoice(selectedCard);
   };
-
-  const preventThirdClick = () => {};
-
-  useEffect(() => {
-    if (secondChoice.length) preventThirdClick();
-  }, [secondChoice]);
 
   const matchedCardHandler = () => {
     const matchedCards: Cards[] = cards.map((card) => {
@@ -125,30 +120,23 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    if (firstChoice.length === 1 && secondChoice.length === 1) {
-      if (firstChoice[0].image === secondChoice[0].image) {
-        setFirstChoice([]);
-        setSecondChoice([]);
+    if (Object.keys(firstChoice).length && Object.keys(secondChoice).length) {
+      if (firstChoice.image === secondChoice.image) {
         matchedCardHandler();
-      }
-
-      if (firstChoice[0].image !== secondChoice[0].image) {
-        const cardsToFlipBack = [firstChoice[0].id, secondChoice[0].id];
-
-        const updatedCards = cards.map((card: any) => {
-          if (cardsToFlipBack.includes(card.id)) {
-            return {
-              ...card,
-              flipped: !card.flipped,
-            };
-          }
-          return card;
-        });
-
+        setFirstChoice({});
+        setSecondChoice({});
+      } else {
+        const updatedCards = cards.map((card: any) =>
+          [firstChoice.id, secondChoice.id].includes(card.id)
+            ? { ...card, flipped: !card.flipped }
+            : card
+        );
         setTimeout(() => {
           setCards(updatedCards);
-          setFirstChoice([]);
-          setSecondChoice([]);
+
+          //RESET CARDS
+          setFirstChoice({});
+          setSecondChoice({});
         }, 1000);
       }
     }
