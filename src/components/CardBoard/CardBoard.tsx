@@ -18,7 +18,6 @@ const CardBoard = () => {
             flipped={card.flipped}
             image={card.image}
             matched={card.matched}
-            selected={card.selected}
           />
         );
       })}

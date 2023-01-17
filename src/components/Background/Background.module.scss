@@ -3,6 +3,7 @@
   background-repeat: none;
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 .clouds {
   position: absolute;
@@ -13,8 +14,8 @@
   .cloud2 {
     position: absolute;
     top: 15%;
-    left: 15%;
-    animation: cloud1Animation 200s;
+    right: 15%;
+    animation: cloud2Animation 200s;
   }
   .cloud3 {
     position: absolute;

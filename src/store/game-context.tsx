@@ -1,21 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useEffect, useState } from "react";
-
 import { CardsIcons } from "../utilities/cards";
-
 import useLocalStorage from "../hooks/useLocalStorage";
-
-type Cards = {
-  image: string;
-  id: number;
-  flipped: boolean;
-  matched: boolean;
-  selected: boolean;
-};
+import { CardProps } from "../components/Card/Card";
 
 type GameContextObj = {
-  cards: Cards[];
+  cards: CardProps[];
   flipBackCards: () => void;
-  changeCardSide: (id: number) => void;
+  changeCardSideHandler: (id: number) => void;
   player: string;
   setPlayer: (name: string) => void;
   points: number;
@@ -23,12 +15,14 @@ type GameContextObj = {
   finishGame: boolean;
   openCardsTime: number;
   setOpenCardsTime: any;
+  isPending: boolean;
+  setIsPending: (isPending: boolean) => void;
 };
 
 export const GameContext = createContext<GameContextObj>({
   cards: [],
   flipBackCards: () => {},
-  changeCardSide: () => {},
+  changeCardSideHandler: () => {},
   player: "",
   setPlayer: (name) => {},
   points: 0,
@@ -36,6 +30,8 @@ export const GameContext = createContext<GameContextObj>({
   finishGame: false,
   openCardsTime: 1,
   setOpenCardsTime: () => {},
+  isPending: false,
+  setIsPending: () => {},
 } as GameContextObj);
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -44,11 +40,12 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cards, setCards] = useState(CardsIcons);
   const [player, setPlayer] = useState("");
   const [points, setPoints] = useState(0);
-  const [firstChoice, setFirstChoice] = useState<any>({});
-  const [secondChoice, setSecondChoice] = useState<any>({});
+  const [firstChoice, setFirstChoice] = useState<CardProps>({} as CardProps);
+  const [secondChoice, setSecondChoice] = useState<CardProps>({} as CardProps);
   const [finishGame, setFinishGame] = useState(false);
   const { value } = useLocalStorage("open-time", 1);
   const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
+  const [isPending, setIsPending] = useState<boolean>(false);
 
   //Initial localStorage state
   useEffect(() => {
@@ -59,16 +56,22 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  const flipOnStart = (open: boolean, cards: Cards[]) =>
-    cards.map((singleCard) => {
+  const flipOnStart = (open: boolean, cards: CardProps[]) => {
+    const changed = cards.map((singleCard) => {
       return {
         ...singleCard,
         flipped: open ? false : true,
       };
     });
+    return changed;
+  };
 
   const flipBackCards = () => {
-    const mixedCards = cards.sort(() => Math.random() - 0.5);
+    const mixedCards = cards
+      .sort(() => Math.random() - 0.5)
+      .map((card) => {
+        return { ...card, flipped: false, matched: false };
+      });
 
     setCards(flipOnStart(false, mixedCards));
     setTimeout(() => {
@@ -76,31 +79,24 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     }, openCardsTime * 1000);
   };
 
-  const changeCardSide = (id: number) => {
-    const newArr = cards.map((card: Cards) => {
-      if (card.id === id) {
-        const newSide = {
-          ...card,
-          flipped: !card.flipped,
-          selected: !card.selected,
-        };
-        setCardsHandler(card.id);
-        return newSide;
-      }
-      return card;
-    });
-    setCards(newArr);
+  const changeCardSideHandler = (id: number) => {
+    setCardsHandler(id);
+
+    const changeCardSide = cards.map((card) =>
+      card.id === id ? { ...card, flipped: !card.flipped } : card
+    );
+    setCards(changeCardSide);
   };
 
   const setCardsHandler = (id: number) => {
     const selectedCard = cards.find((card) => card.id === id);
     Object.keys(firstChoice).length
-      ? setSecondChoice(selectedCard)
-      : setFirstChoice(selectedCard);
+      ? setSecondChoice(selectedCard!)
+      : setFirstChoice(selectedCard!);
   };
 
   const matchedCardHandler = () => {
-    const matchedCards: Cards[] = cards.map((card) => {
+    const matchedCards: CardProps[] = cards.map((card) => {
       if (card.flipped === true) {
         return {
           ...card,
@@ -121,10 +117,12 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (Object.keys(firstChoice).length && Object.keys(secondChoice).length) {
+      setIsPending(true);
       if (firstChoice.image === secondChoice.image) {
         matchedCardHandler();
-        setFirstChoice({});
-        setSecondChoice({});
+        setFirstChoice({} as CardProps);
+        setSecondChoice({} as CardProps);
+        setIsPending(false);
       } else {
         const updatedCards = cards.map((card: any) =>
           [firstChoice.id, secondChoice.id].includes(card.id)
@@ -135,18 +133,19 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
           setCards(updatedCards);
 
           //RESET CARDS
-          setFirstChoice({});
-          setSecondChoice({});
+          setFirstChoice({} as CardProps);
+          setSecondChoice({} as CardProps);
+          setIsPending(false);
         }, 1000);
       }
     }
     finishGameHandler();
-  }, [firstChoice, secondChoice, cards]);
+  }, [firstChoice, secondChoice, cards, finishGameHandler, matchedCardHandler]);
 
   const contextValue: GameContextObj = {
     cards,
     flipBackCards,
-    changeCardSide,
+    changeCardSideHandler,
     player,
     setPlayer,
     points,
@@ -154,6 +153,8 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     finishGame,
     openCardsTime,
     setOpenCardsTime,
+    isPending,
+    setIsPending,
   };
 
   return (
