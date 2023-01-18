@@ -15,13 +15,21 @@ import Settings from "./components/Modals/Settings/Settings";
 import Background from "./components/Background/Background";
 
 function App() {
-  const { finishGame, player, flipBackCards } = useContext(GameContext);
+  const {
+    finishGame,
+    player,
+    flipBackCards,
+    setTimerIsRunning,
+    setResetTimer,
+  } = useContext(GameContext);
 
   const [showNewPlayer, setShowNewPlayer] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
 
   const refreshHandler = () => {
     flipBackCards();
+    setTimerIsRunning(false);
+    setResetTimer(true);
   };
 
   useEffect(() => {

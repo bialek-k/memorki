@@ -16,15 +16,6 @@
   cursor: pointer;
 }
 
-.points {
-  font-size: 1.2rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-  align-items: baseline;
-  gap: 8px;
-}
 .points span {
   font-size: 1.8rem;
 }

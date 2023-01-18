@@ -17,6 +17,12 @@ type GameContextObj = {
   setOpenCardsTime: any;
   isPending: boolean;
   setIsPending: (isPending: boolean) => void;
+  timerIsRunning: boolean;
+  setTimerIsRunning: (timerIsRunning: boolean) => void;
+  time: number;
+  setTime: (time: number) => void;
+  resetTimer: boolean;
+  setResetTimer: (resetTimer: boolean) => void;
 };
 
 export const GameContext = createContext<GameContextObj>({
@@ -24,7 +30,7 @@ export const GameContext = createContext<GameContextObj>({
   flipBackCards: () => {},
   changeCardSideHandler: () => {},
   player: "",
-  setPlayer: (name) => {},
+  setPlayer: () => {},
   points: 0,
   setPoints: () => {},
   finishGame: false,
@@ -32,6 +38,12 @@ export const GameContext = createContext<GameContextObj>({
   setOpenCardsTime: () => {},
   isPending: false,
   setIsPending: () => {},
+  timerIsRunning: false,
+  setTimerIsRunning: () => {},
+  time: 0,
+  setTime: () => {},
+  resetTimer: false,
+  setResetTimer: () => {},
 } as GameContextObj);
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -46,6 +58,9 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const { value } = useLocalStorage("open-time", 1);
   const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [time, setTime] = useState(0);
+  const [timerIsRunning, setTimerIsRunning] = useState(false);
+  const [resetTimer, setResetTimer] = useState(false);
 
   //Initial localStorage state
   useEffect(() => {
@@ -80,8 +95,8 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const changeCardSideHandler = (id: number) => {
+    setTimerIsRunning(true);
     setCardsHandler(id);
-
     const changeCardSide = cards.map((card) =>
       card.id === id ? { ...card, flipped: !card.flipped } : card
     );
@@ -112,6 +127,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     const allMatchedCards = cards.filter((card) => card.matched === true);
     if (allMatchedCards.length === cards.length) {
       setFinishGame(true);
+      setTimerIsRunning(true);
     }
   };
 
@@ -155,6 +171,12 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setOpenCardsTime,
     isPending,
     setIsPending,
+    timerIsRunning,
+    setTimerIsRunning,
+    time,
+    setTime,
+    resetTimer,
+    setResetTimer,
   };
 
   return (
