@@ -1,5 +1,5 @@
 @use "src/styles/variables.scss";
-
+@import "../../../styles/media-queries-scss-mixins.scss";
 .backdrop {
   position: fixed;
   display: flex;
@@ -43,6 +43,9 @@
 
     h1 {
       line-height: 5px;
+      @include xs {
+        font-size: 1.3rem;
+      }
     }
     .controls {
       font-size: 1.5rem;
@@ -53,6 +56,9 @@
         justify-content: center;
         align-items: center;
         gap: 14px;
+        @include xs {
+          font-size: 1rem;
+        }
       }
       .action {
         display: flex;

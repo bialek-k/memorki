@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styles from "./CardBoard.module.css";
+import styles from "./CardBoard.module.scss";
 
 import Card from "../Card/Card";
 import type { CardProps } from "../Card/Card";

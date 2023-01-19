@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styles from "./Player.module.css";
+import styles from "./Player.module.scss";
 
 import { GameContext } from "../../store/game-context";
 import Timer from "./Timer/Timer";

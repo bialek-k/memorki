@@ -1,3 +1,5 @@
+@import "./styles/media-queries-scss-mixins.scss";
+
 .app {
   display: flex;
   position: relative;
@@ -18,6 +20,13 @@
       top: 150px;
       transform: rotate(-30deg);
       z-index: 10;
+
+      @include xs {
+        top: 0px;
+        left: 150px;
+        transform: rotate(0);
+        scale: 0.8;
+      }
     }
   }
   .settingIcon {
@@ -28,6 +37,10 @@
       cursor: pointer;
       height: 34px;
       filter: drop-shadow(0 0 6px rgba(102, 102, 102, 0.459));
+    }
+
+    @include xs {
+      justify-content: flex-start;
     }
   }
 }
