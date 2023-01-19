@@ -38,6 +38,16 @@
       right: 10px;
       height: 24px;
     }
+    .timer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
 
     h1 {
       line-height: 5px;

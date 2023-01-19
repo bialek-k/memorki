@@ -15,17 +15,15 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [cards, setCards] = useState(CardsIcons);
   const [player, setPlayer] = useState("");
-  const [points, setPoints] = useState(0);
   const [firstChoice, setFirstChoice] = useState<CardProps>({} as CardProps);
   const [secondChoice, setSecondChoice] = useState<CardProps>({} as CardProps);
   const [finishGame, setFinishGame] = useState(false);
   const { value } = useLocalStorage("open-time", 1);
   const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [time, setTime] = useState(0);
   const [timerIsRunning, setTimerIsRunning] = useState(false);
+  const [finalTime, setFinalTime] = useState(100);
   const [resetTimer, setResetTimer] = useState(false);
-  const [resetGame, setResetGame] = useState(false);
 
   //Initial localStorage state
   useEffect(() => {
@@ -88,14 +86,6 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setCards(matchedCards);
   };
 
-  const finishGameHandler = () => {
-    const allMatchedCards = cards.filter((card) => card.matched === true);
-    if (allMatchedCards.length === cards.length) {
-      setFinishGame(true);
-      setTimerIsRunning(true);
-    }
-  };
-
   useEffect(() => {
     if (Object.keys(firstChoice).length && Object.keys(secondChoice).length) {
       setIsPending(true);
@@ -120,8 +110,16 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         }, 1000);
       }
     }
-    finishGameHandler();
-  }, [firstChoice, secondChoice, cards, finishGameHandler, matchedCardHandler]);
+
+    if (cards.every((card) => card.matched === true)) {
+      finishGameHandler();
+    }
+  }, [firstChoice, secondChoice, cards, matchedCardHandler]);
+
+  const finishGameHandler = () => {
+    setFinishGame(true);
+    setTimerIsRunning(false);
+  };
 
   const contextValue: GameContextObj = {
     cards,
@@ -129,8 +127,6 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     changeCardSideHandler,
     player,
     setPlayer,
-    points,
-    setPoints,
     finishGame,
     setFinishGame,
     openCardsTime,
@@ -139,12 +135,10 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsPending,
     timerIsRunning,
     setTimerIsRunning,
-    time,
-    setTime,
+    finalTime,
+    setFinalTime,
     resetTimer,
     setResetTimer,
-    resetGame,
-    setResetGame,
   };
 
   return (

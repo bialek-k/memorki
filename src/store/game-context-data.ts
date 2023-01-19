@@ -6,8 +6,6 @@ export type GameContextObj = {
   changeCardSideHandler: (id: number) => void;
   player: string;
   setPlayer: (name: string) => void;
-  points: number;
-  setPoints: (points: number) => void;
   finishGame: boolean;
   setFinishGame: (finishGame: boolean) => void;
   openCardsTime: number;
@@ -16,12 +14,10 @@ export type GameContextObj = {
   setIsPending: (isPending: boolean) => void;
   timerIsRunning: boolean;
   setTimerIsRunning: (timerIsRunning: boolean) => void;
-  time: number;
-  setTime: (time: number) => void;
+  finalTime: number;
+  setFinalTime: (finalTime: number) => void;
   resetTimer: boolean;
   setResetTimer: (resetTimer: boolean) => void;
-  resetGame: boolean;
-  setResetGame: (resetGame: boolean) => void;
 };
 
 export const gameContextInit = {
@@ -30,8 +26,6 @@ export const gameContextInit = {
   changeCardSideHandler: () => {},
   player: "",
   setPlayer: () => {},
-  points: 0,
-  setPoints: () => {},
   finishGame: false,
   setFinishGame: () => {},
   openCardsTime: 1,
@@ -40,10 +34,8 @@ export const gameContextInit = {
   setIsPending: () => {},
   timerIsRunning: false,
   setTimerIsRunning: () => {},
-  time: 0,
-  setTime: () => {},
+  finalTime: 0,
+  setFinalTime: () => {},
   resetTimer: false,
   setResetTimer: () => {},
-  resetGame: false,
-  setResetGame: () => {},
 };
