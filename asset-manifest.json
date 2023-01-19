@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/memorki/static/css/main.3bd7cac1.css",
+    "main.js": "/memorki/static/js/main.69661fd4.js",
+    "static/media/Background.svg": "/memorki/static/media/Background.41e8ec6e011c25a9e36a.svg",
+    "static/media/logo.png": "/memorki/static/media/logo.8d2d00d58a7bfe8e4a2f.png",
+    "static/media/zuma.png": "/memorki/static/media/zuma.8244b4cb906c6e2ffbb3.png",
+    "static/media/rocky.png": "/memorki/static/media/rocky.96b6ca55ff943dc4dfe9.png",
+    "static/media/rubble.png": "/memorki/static/media/rubble.e5472b560e385a82cceb.png",
+    "static/media/ryder.png": "/memorki/static/media/ryder.670e11991ea6d422106d.png",
+    "static/media/settings.svg": "/memorki/static/media/settings.45ca64825b56777f920bfe38ac407689.svg",
+    "static/media/Cloud_2.svg": "/memorki/static/media/Cloud_2.0400ae50330335f37a94e627cecfe696.svg",
+    "static/media/refresh.svg": "/memorki/static/media/refresh.890625981800d2961363c1e33fc42acb.svg",
+    "index.html": "/memorki/index.html",
+    "static/media/Cloud_3.svg": "/memorki/static/media/Cloud_3.d491ebac1ea27681f4da6b7305b25d3d.svg",
+    "static/media/Cloud_4.svg": "/memorki/static/media/Cloud_4.a187a6b0ba7986eb798037e2d5dd8a00.svg",
+    "static/media/close.svg": "/memorki/static/media/close.60cf68c83c1745a9a5a3497035f6101d.svg",
+    "main.3bd7cac1.css.map": "/memorki/static/css/main.3bd7cac1.css.map",
+    "main.69661fd4.js.map": "/memorki/static/js/main.69661fd4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3bd7cac1.css",
+    "static/js/main.69661fd4.js"
+  ]
+}
