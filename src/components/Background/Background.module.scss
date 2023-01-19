@@ -1,8 +1,15 @@
+@import "../../styles/media-queries-scss-mixins.scss";
+
 .background {
   background-image: url("../../assets/Background.svg");
   background-repeat: none;
   background-size: cover;
   background-position: center;
+
+  @include xs {
+    background-position: 80%;
+    overflow: hidden;
+  }
 }
 .clouds {
   position: absolute;
@@ -11,6 +18,11 @@
   height: 100%;
   top: 0;
   left: 0;
+
+  @include xs {
+    top: -100px;
+  }
+
   .cloud2 {
     position: absolute;
     top: 15%;
