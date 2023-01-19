@@ -25,6 +25,7 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [time, setTime] = useState(0);
   const [timerIsRunning, setTimerIsRunning] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
+  const [resetGame, setResetGame] = useState(false);
 
   //Initial localStorage state
   useEffect(() => {
@@ -142,6 +143,8 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setTime,
     resetTimer,
     setResetTimer,
+    resetGame,
+    setResetGame,
   };
 
   return (

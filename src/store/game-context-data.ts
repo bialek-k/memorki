@@ -20,6 +20,8 @@ export type GameContextObj = {
   setTime: (time: number) => void;
   resetTimer: boolean;
   setResetTimer: (resetTimer: boolean) => void;
+  resetGame: boolean;
+  setResetGame: (resetGame: boolean) => void;
 };
 
 export const gameContextInit = {
@@ -42,4 +44,6 @@ export const gameContextInit = {
   setTime: () => {},
   resetTimer: false,
   setResetTimer: () => {},
+  resetGame: false,
+  setResetGame: () => {},
 };
