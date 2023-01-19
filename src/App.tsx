@@ -13,6 +13,7 @@ import Player from "./components/Player/Player";
 import NewPlayer from "./components/Modals/NewPlayer/NewPlayer";
 import Settings from "./components/Modals/Settings/Settings";
 import Background from "./components/Background/Background";
+import EndGame from "./components/Modals/EndGame/EndGame";
 
 function App() {
   const {
@@ -42,9 +43,11 @@ function App() {
 
   if (finishGame) {
     return (
-      <div>
-        <h1>KONIEC GRY</h1>
-      </div>
+      <Background>
+        <div className={styles.app}>
+          <EndGame />
+        </div>
+      </Background>
     );
   }
 
