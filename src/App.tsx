@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import styles from "./App.module.scss";
 
+import { motion } from "framer-motion";
+
 import { GameContext } from "./store/game-context";
 
 import { ReactComponent as SettingsIcon } from "./assets/settings.svg";
@@ -13,6 +15,7 @@ import Player from "./components/Player/Player";
 import NewPlayer from "./components/Modals/NewPlayer/NewPlayer";
 import Settings from "./components/Modals/Settings/Settings";
 import Background from "./components/Background/Background";
+import EndGame from "./components/Modals/EndGame/EndGame";
 
 function App() {
   const {
@@ -40,17 +43,10 @@ function App() {
     }
   }, []);
 
-  if (finishGame) {
-    return (
-      <div>
-        <h1>KONIEC GRY</h1>
-      </div>
-    );
-  }
-
   return (
     <Background>
       <div className={styles.app}>
+        {finishGame && <EndGame />}
         {showNewPlayer && (
           <NewPlayer
             setShowNewPlayer={setShowNewPlayer}
@@ -62,20 +58,30 @@ function App() {
             {showSetting && <Settings setShowSetting={setShowSetting} />}
             <div className={styles.game}>
               <div className={styles.settingIcon}>
-                <RefreshIcon
-                  fill="white"
-                  stroke="white"
-                  strokeWidth="15"
-                  className={styles.settingsBtn}
-                  onClick={refreshHandler}
-                />
-                <SettingsIcon
-                  fill="white"
-                  stroke="white"
-                  strokeWidth="15"
-                  className={styles.settingsBtn}
-                  onClick={() => setShowSetting(true)}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <RefreshIcon
+                    fill="white"
+                    stroke="white"
+                    strokeWidth="15"
+                    className={styles.settingsBtn}
+                    onClick={refreshHandler}
+                  />
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <SettingsIcon
+                    fill="white"
+                    stroke="white"
+                    strokeWidth="15"
+                    className={styles.settingsBtn}
+                    onClick={() => setShowSetting(true)}
+                  />
+                </motion.div>
               </div>
               <Player setShowNewPlayer={setShowNewPlayer} />
               <CardBoard />

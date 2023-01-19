@@ -4,7 +4,6 @@ import { ReactComponent as Close } from "../../../assets/close.svg";
 import styles from "./Settings.module.scss";
 
 import TimeControl from "./TimeControl";
-import SoundControl from "./SoundControl";
 
 import { GameContext } from "../../../store/game-context";
 
@@ -33,7 +32,6 @@ const Settings = ({ setShowSetting }: SettingsProps) => {
           />
           <h1>Ustawienia</h1>
           <div className={styles.controls}>
-            <SoundControl />
             <TimeControl />
             <div className={styles.action}>
               <button onClick={saveSettingsHandler}>Zapisz</button>

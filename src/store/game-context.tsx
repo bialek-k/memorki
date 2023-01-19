@@ -4,62 +4,25 @@ import { CardsIcons } from "../utilities/cards";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { CardProps } from "../components/Card/Card";
 
-type GameContextObj = {
-  cards: CardProps[];
-  flipBackCards: () => void;
-  changeCardSideHandler: (id: number) => void;
-  player: string;
-  setPlayer: (name: string) => void;
-  points: number;
-  setPoints: (points: number) => void;
-  finishGame: boolean;
-  openCardsTime: number;
-  setOpenCardsTime: any;
-  isPending: boolean;
-  setIsPending: (isPending: boolean) => void;
-  timerIsRunning: boolean;
-  setTimerIsRunning: (timerIsRunning: boolean) => void;
-  time: number;
-  setTime: (time: number) => void;
-  resetTimer: boolean;
-  setResetTimer: (resetTimer: boolean) => void;
-};
+import { gameContextInit, GameContextObj } from "./game-context-data";
 
-export const GameContext = createContext<GameContextObj>({
-  cards: [],
-  flipBackCards: () => {},
-  changeCardSideHandler: () => {},
-  player: "",
-  setPlayer: () => {},
-  points: 0,
-  setPoints: () => {},
-  finishGame: false,
-  openCardsTime: 1,
-  setOpenCardsTime: () => {},
-  isPending: false,
-  setIsPending: () => {},
-  timerIsRunning: false,
-  setTimerIsRunning: () => {},
-  time: 0,
-  setTime: () => {},
-  resetTimer: false,
-  setResetTimer: () => {},
-} as GameContextObj);
+export const GameContext = createContext<GameContextObj>(
+  gameContextInit as GameContextObj
+);
 
 export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cards, setCards] = useState(CardsIcons);
   const [player, setPlayer] = useState("");
-  const [points, setPoints] = useState(0);
   const [firstChoice, setFirstChoice] = useState<CardProps>({} as CardProps);
   const [secondChoice, setSecondChoice] = useState<CardProps>({} as CardProps);
   const [finishGame, setFinishGame] = useState(false);
   const { value } = useLocalStorage("open-time", 1);
   const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [time, setTime] = useState(0);
   const [timerIsRunning, setTimerIsRunning] = useState(false);
+  const [finalTime, setFinalTime] = useState(100);
   const [resetTimer, setResetTimer] = useState(false);
 
   //Initial localStorage state
@@ -123,14 +86,6 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setCards(matchedCards);
   };
 
-  const finishGameHandler = () => {
-    const allMatchedCards = cards.filter((card) => card.matched === true);
-    if (allMatchedCards.length === cards.length) {
-      setFinishGame(true);
-      setTimerIsRunning(true);
-    }
-  };
-
   useEffect(() => {
     if (Object.keys(firstChoice).length && Object.keys(secondChoice).length) {
       setIsPending(true);
@@ -155,8 +110,16 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
         }, 1000);
       }
     }
-    finishGameHandler();
-  }, [firstChoice, secondChoice, cards, finishGameHandler, matchedCardHandler]);
+
+    if (cards.every((card) => card.matched === true)) {
+      finishGameHandler();
+    }
+  }, [firstChoice, secondChoice, cards, matchedCardHandler]);
+
+  const finishGameHandler = () => {
+    setFinishGame(true);
+    setTimerIsRunning(false);
+  };
 
   const contextValue: GameContextObj = {
     cards,
@@ -164,17 +127,16 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     changeCardSideHandler,
     player,
     setPlayer,
-    points,
-    setPoints,
     finishGame,
+    setFinishGame,
     openCardsTime,
     setOpenCardsTime,
     isPending,
     setIsPending,
     timerIsRunning,
     setTimerIsRunning,
-    time,
-    setTime,
+    finalTime,
+    setFinalTime,
     resetTimer,
     setResetTimer,
   };

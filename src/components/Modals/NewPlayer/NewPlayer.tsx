@@ -2,7 +2,6 @@ import React, { useContext, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import { ReactComponent as Close } from "../../../assets/close.svg";
-
 import { GameContext } from "../../../store/game-context";
 
 import styles from "./NewPlayer.module.scss";
@@ -26,12 +25,7 @@ const NewPlayer = ({ setShowNewPlayer, showNewPlayer }: NewPlayerProps) => {
     }
     setShowNewPlayer(false);
   };
-
-  const closeModalHandler = () => {
-    if (showNewPlayer) {
-      setShowNewPlayer(false);
-    }
-  };
+  const closeModalHandler = () => showNewPlayer && setShowNewPlayer(false);
 
   return ReactDOM.createPortal(
     <div onClick={closeModalHandler} className={styles.backdrop}>
