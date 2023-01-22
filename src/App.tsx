@@ -18,22 +18,14 @@ import Background from "./components/Background/Background";
 import EndGame from "./components/Modals/EndGame/EndGame";
 
 function App() {
-  const {
-    finishGame,
-    player,
-    flipBackCards,
-    setTimerIsRunning,
-    setResetTimer,
-  } = useContext(GameContext);
+  const { finishGame, flipBackCards, refreshHandler } = useContext(GameContext);
 
   const [showNewPlayer, setShowNewPlayer] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
+  const storagePlayer = localStorage.getItem("player");
 
-  const refreshHandler = () => {
-    flipBackCards();
-    setTimerIsRunning(false);
-    setResetTimer(true);
-  };
+  const showModalHandler = () => setShowNewPlayer(false);
+  const showSettingsHandler = () => setShowSetting(true);
 
   useEffect(() => {
     flipBackCards();
@@ -49,14 +41,14 @@ function App() {
         {finishGame && <EndGame />}
         {showNewPlayer && (
           <NewPlayer
-            setShowNewPlayer={setShowNewPlayer}
+            showModalHandler={showModalHandler}
             showNewPlayer={showNewPlayer}
           />
         )}
-        {player !== "" && (
-          <>
-            {showSetting && <Settings setShowSetting={setShowSetting} />}
-            <div className={styles.game}>
+        {showSetting && <Settings setShowSetting={setShowSetting} />}
+        <div className={styles.game}>
+          {storagePlayer !== null && (
+            <>
               <div className={styles.settingIcon}>
                 <motion.div
                   whileHover={{ scale: 1.15 }}
@@ -79,16 +71,16 @@ function App() {
                     stroke="white"
                     strokeWidth="15"
                     className={styles.settingsBtn}
-                    onClick={() => setShowSetting(true)}
+                    onClick={showSettingsHandler}
                   />
                 </motion.div>
               </div>
               <Player setShowNewPlayer={setShowNewPlayer} />
               <CardBoard />
               <img src={Ryder} alt="ryder" className={styles.ryder} />
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </Background>
   );

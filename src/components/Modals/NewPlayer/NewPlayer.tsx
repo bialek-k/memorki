@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 
 import { ReactComponent as Close } from "../../../assets/close.svg";
@@ -7,32 +7,25 @@ import { GameContext } from "../../../store/game-context";
 import styles from "./NewPlayer.module.scss";
 
 interface NewPlayerProps {
-  setShowNewPlayer: React.Dispatch<React.SetStateAction<boolean>>;
+  showModalHandler: () => void;
   showNewPlayer: boolean;
 }
 
-const NewPlayer = ({ setShowNewPlayer, showNewPlayer }: NewPlayerProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const { setPlayer } = useContext(GameContext);
+const NewPlayer = ({ showModalHandler }: NewPlayerProps) => {
+  const { setPlayer, player } = useContext(GameContext);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (inputRef.current !== null) {
-      const playerName = inputRef.current.value;
-      setPlayer(playerName);
-      localStorage.setItem("player", JSON.stringify(playerName));
-    }
-    setShowNewPlayer(false);
+    localStorage.setItem("player", JSON.stringify(player));
+    showModalHandler();
   };
-  const closeModalHandler = () => showNewPlayer && setShowNewPlayer(false);
 
   return ReactDOM.createPortal(
-    <div onClick={closeModalHandler} className={styles.backdrop}>
+    <div onClick={() => showModalHandler()} className={styles.backdrop}>
       <div onClick={(e) => e.stopPropagation()} className={styles.wrapper}>
         <div className={styles.content}>
           <Close
-            onClick={() => setShowNewPlayer(false)}
+            onClick={() => showModalHandler()}
             className={styles.closeBtn}
             fill="white"
             stroke="white"
@@ -41,7 +34,8 @@ const NewPlayer = ({ setShowNewPlayer, showNewPlayer }: NewPlayerProps) => {
           <h1>Nowy gracz</h1>
           <form className={styles.form} onSubmit={submitHandler}>
             <label>
-              Imię: <input name="name" ref={inputRef} />
+              Imię:{" "}
+              <input name="name" onChange={(e) => setPlayer(e.target.value)} />
             </label>
           </form>
         </div>
