@@ -1,0 +1,8 @@
+@use "src/styles/variables.scss";
+
+.modal {
+  width: clamp(50%, 700px, 80%);
+  height: min(50%, 300px);
+  background: variables.$modalBackground;
+  padding: 0 2rem;
+}

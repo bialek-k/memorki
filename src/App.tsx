@@ -17,9 +17,15 @@ import { Settings } from "./components/Modals/Settings/Settings";
 import { EndGame } from "./components/Modals/EndGame/EndGame";
 
 import { Background } from "./components/Background/Background";
+import { Modal } from "./components/Modal/Modal";
 
 function App() {
   const { finishGame, flipBackCards, refreshHandler } = useContext(GameContext);
+
+  const [newModalOpen, setNewModalOpen] = useState(false);
+
+  const close = () => setNewModalOpen(false);
+  const open = () => setNewModalOpen(true);
 
   const [showNewPlayer, setShowNewPlayer] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
@@ -38,6 +44,14 @@ function App() {
 
   return (
     <Background>
+      <button onClick={() => (newModalOpen ? close() : open())}>
+        NEW MODAL
+      </button>
+      {newModalOpen && (
+        <Modal handleClose={newModalOpen}>
+          <p>SIEMANO</p>
+        </Modal>
+      )}
       <div className={styles.app}>
         {finishGame && <EndGame />}
         {showNewPlayer && (
