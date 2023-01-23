@@ -1,28 +1,24 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import styles from "./CardBoard.module.scss";
-
-import Card from "../Card/Card";
-import type { CardProps } from "../Card/Card";
+import { Card } from "../Card/Card";
 
 import { GameContext } from "../../store/game-context";
 
-const CardBoard = () => {
+export const CardBoard = () => {
   const { cards } = useContext(GameContext);
   return (
     <div className={styles.cardBoard}>
-      {cards.map((card: CardProps) => {
+      {cards.map(({ id, flipped, image, matched }) => {
         return (
           <Card
-            key={card.id}
-            id={card.id}
-            flipped={card.flipped}
-            image={card.image}
-            matched={card.matched}
+            key={id}
+            id={id}
+            flipped={flipped}
+            image={image}
+            matched={matched}
           />
         );
       })}
     </div>
   );
 };
-
-export default CardBoard;

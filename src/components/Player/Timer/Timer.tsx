@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { GameContext } from "../../../store/game-context";
 import styles from "./Timer.module.scss";
 
-const Timer = () => {
+export const Timer = () => {
   const { timerIsRunning, resetTimer, setFinalTime } = useContext(GameContext);
   const [time, setTime] = useState(0);
 
@@ -36,5 +36,3 @@ const Timer = () => {
     </div>
   );
 };
-
-export default Timer;

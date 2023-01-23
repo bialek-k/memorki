@@ -10,7 +10,7 @@ type BackgroundProps = {
   children: React.ReactNode;
 };
 
-const Background = ({ children }: BackgroundProps) => {
+export const Background = ({ children }: BackgroundProps) => {
   return (
     <>
       <div className={styles.clouds}>
@@ -22,5 +22,3 @@ const Background = ({ children }: BackgroundProps) => {
     </>
   );
 };
-
-export default Background;

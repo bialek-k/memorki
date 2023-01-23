@@ -14,7 +14,7 @@ export type CardProps = {
   matched: boolean;
 };
 
-const Card = ({ id, flipped, image, matched }: CardProps) => {
+export const Card = ({ id, flipped, image, matched }: CardProps) => {
   const { changeCardSideHandler, isPending } = useContext(GameContext);
 
   return (
@@ -38,5 +38,3 @@ const Card = ({ id, flipped, image, matched }: CardProps) => {
     </motion.button>
   );
 };
-
-export default Card;

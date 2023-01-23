@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 
+import { motion } from "framer-motion";
+
 import { ReactComponent as Close } from "../../../assets/close.svg";
 import { GameContext } from "../../../store/game-context";
 
@@ -11,7 +13,7 @@ interface NewPlayerProps {
   showNewPlayer: boolean;
 }
 
-const NewPlayer = ({ showModalHandler }: NewPlayerProps) => {
+export const NewPlayer = ({ showModalHandler }: NewPlayerProps) => {
   const { setPlayer, player } = useContext(GameContext);
 
   const submitHandler = (e: React.FormEvent) => {
@@ -22,7 +24,10 @@ const NewPlayer = ({ showModalHandler }: NewPlayerProps) => {
 
   return ReactDOM.createPortal(
     <div onClick={() => showModalHandler()} className={styles.backdrop}>
-      <div onClick={(e) => e.stopPropagation()} className={styles.wrapper}>
+      <motion.div
+        onClick={(e) => e.stopPropagation()}
+        className={styles.wrapper}
+      >
         <div className={styles.content}>
           <Close
             onClick={() => showModalHandler()}
@@ -39,10 +44,8 @@ const NewPlayer = ({ showModalHandler }: NewPlayerProps) => {
             </label>
           </form>
         </div>
-      </div>
+      </motion.div>
     </div>,
     document.getElementById("portal")!
   );
 };
-
-export default NewPlayer;

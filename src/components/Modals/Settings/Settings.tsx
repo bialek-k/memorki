@@ -3,15 +3,15 @@ import ReactDOM from "react-dom";
 import { ReactComponent as Close } from "../../../assets/close.svg";
 import styles from "./Settings.module.scss";
 
-import TimeControl from "./TimeControl";
-
+import { motion } from "framer-motion";
+import { TimeControl } from "./TimeControl";
 import { GameContext } from "../../../store/game-context";
 
 interface SettingsProps {
   setShowSetting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Settings = ({ setShowSetting }: SettingsProps) => {
+export const Settings = ({ setShowSetting }: SettingsProps) => {
   const { flipBackCards } = useContext(GameContext);
 
   const saveSettingsHandler = () => {
@@ -21,7 +21,14 @@ const Settings = ({ setShowSetting }: SettingsProps) => {
 
   return ReactDOM.createPortal(
     <div onClick={() => setShowSetting(false)} className={styles.backdrop}>
-      <div onClick={(e) => e.stopPropagation()} className={styles.wrapper}>
+      <motion.div
+        onClick={(e) => e.stopPropagation()}
+        className={styles.wrapper}
+        initial={{ y: "-100vh", opacity: 0 }}
+        animate={{ y: "0", opacity: 1 }}
+        exit={{ y: "100vh", opacity: 0 }}
+        transition={{ ease: "easeOut", duration: 0.3 }}
+      >
         <div className={styles.content}>
           <Close
             onClick={() => setShowSetting(false)}
@@ -38,10 +45,8 @@ const Settings = ({ setShowSetting }: SettingsProps) => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>,
     document.getElementById("portal")!
   );
 };
-
-export default Settings;

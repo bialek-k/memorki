@@ -16,8 +16,8 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cards, setCards] = useState(CardsIcons);
   const [player, setPlayer] = useState("");
   const [timerIsRunning, setTimerIsRunning] = useState(false);
-  const [firstChoice, setFirstChoice] = useState<CardProps | null>();
-  const [secondChoice, setSecondChoice] = useState<CardProps | null>();
+  const [firstChoice, setFirstChoice] = useState<CardProps | null>(null);
+  const [secondChoice, setSecondChoice] = useState<CardProps | null>(null);
   const { value } = useLocalStorage("open-time", 1);
   const [openCardsTime, setOpenCardsTime] = useState(JSON.parse(value));
   const [finalTime, setFinalTime] = useState(100);
@@ -92,35 +92,41 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setCards(matchedCards);
   };
 
-  useEffect(() => {
-    // if (Object.keys(firstChoice).length && Object.keys(secondChoice).length) {
-    //   setIsPending(true);
-    //   if (firstChoice.image === secondChoice.image) {
-    //     matchedCardHandler();
-    //     setFirstChoice({} as CardProps);
-    //     setSecondChoice({} as CardProps);
-    //     setIsPending(false);
-    //   } else {
-    //     const updatedCards = cards.map((card: any) =>
-    //       [firstChoice.id, secondChoice.id].includes(card.id)
-    //         ? { ...card, flipped: !card.flipped }
-    //         : card
-    //     );
-    //     setTimeout(() => {
-    //       setCards(updatedCards);
+  const resetChoices = () => {
+    setFirstChoice(null);
+    setSecondChoice(null);
+    setIsPending(false);
+  };
 
-    //       //RESET CARDS
-    //       setFirstChoice({} as CardProps);
-    //       setSecondChoice({} as CardProps);
-    //       setIsPending(false);
-    //     }, 1000);
-    //   }
-    // }
+  const cardCompareHandler = () => {
+    if (secondChoice === null) return;
+
+    setIsPending(true);
+
+    if (firstChoice?.image === secondChoice?.image) {
+      matchedCardHandler();
+      resetChoices();
+    } else {
+      const reversCard = cards.map((card: CardProps) =>
+        [firstChoice?.id, secondChoice?.id].includes(card.id)
+          ? { ...card, flipped: !card.flipped }
+          : card
+      );
+
+      setTimeout(() => {
+        setCards(reversCard);
+        resetChoices();
+      }, 1000);
+    }
+  };
+
+  useEffect(() => {
+    cardCompareHandler();
 
     if (cards.every((card) => card.matched === true)) {
       finishGameHandler();
     }
-  }, [firstChoice, secondChoice, cards, matchedCardHandler]);
+  }, [firstChoice, secondChoice]);
 
   const finishGameHandler = () => {
     setFinishGame(true);
@@ -152,35 +158,3 @@ export const GameContextProvider: React.FC<{ children: React.ReactNode }> = ({
     <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>
   );
 };
-
-/*
-useEffect(() => {
-    if (Object.keys(firstChoice).length && Object.keys(secondChoice).length) {
-      setIsPending(true);
-      if (firstChoice.image === secondChoice.image) {
-        matchedCardHandler();
-        setFirstChoice({} as CardProps);
-        setSecondChoice({} as CardProps);
-        setIsPending(false);
-      } else {
-        const updatedCards = cards.map((card: any) =>
-          [firstChoice.id, secondChoice.id].includes(card.id)
-            ? { ...card, flipped: !card.flipped }
-            : card
-        );
-        setTimeout(() => {
-          setCards(updatedCards);
-
-          //RESET CARDS
-          setFirstChoice({} as CardProps);
-          setSecondChoice({} as CardProps);
-          setIsPending(false);
-        }, 1000);
-      }
-    }
-
-    if (cards.every((card) => card.matched === true)) {
-      finishGameHandler();
-    }
-  }, [firstChoice, secondChoice, cards, matchedCardHandler]);
-*/

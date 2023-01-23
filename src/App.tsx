@@ -10,12 +10,13 @@ import { ReactComponent as RefreshIcon } from "./assets/refresh.svg";
 
 import Ryder from "./assets/png/ryder.png";
 
-import CardBoard from "./components/CardBoard/CardBoard";
-import Player from "./components/Player/Player";
-import NewPlayer from "./components/Modals/NewPlayer/NewPlayer";
-import Settings from "./components/Modals/Settings/Settings";
-import Background from "./components/Background/Background";
-import EndGame from "./components/Modals/EndGame/EndGame";
+import { CardBoard } from "./components/CardBoard/CardBoard";
+import { Player } from "./components/Player/Player";
+import { NewPlayer } from "./components/Modals/NewPlayer/NewPlayer";
+import { Settings } from "./components/Modals/Settings/Settings";
+import { EndGame } from "./components/Modals/EndGame/EndGame";
+
+import { Background } from "./components/Background/Background";
 
 function App() {
   const { finishGame, flipBackCards, refreshHandler } = useContext(GameContext);

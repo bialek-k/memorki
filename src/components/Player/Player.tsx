@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import styles from "./Player.module.scss";
 
 import { GameContext } from "../../store/game-context";
-import Timer from "./Timer/Timer";
+import { Timer } from "./Timer/Timer";
 
 interface PlayerProps {
   setShowNewPlayer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Player = ({ setShowNewPlayer }: PlayerProps) => {
+export const Player = ({ setShowNewPlayer }: PlayerProps) => {
   const { player } = useContext(GameContext);
 
   return (
@@ -20,5 +20,3 @@ const Player = ({ setShowNewPlayer }: PlayerProps) => {
     </div>
   );
 };
-
-export default Player;

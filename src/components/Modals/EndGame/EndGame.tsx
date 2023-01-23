@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { GameContext } from "../../../store/game-context";
 import styles from "./EndGame.module.scss";
 
-const EndGame = () => {
+export const EndGame = () => {
   const { finalTime, setFinishGame, flipBackCards, setResetTimer } =
     useContext(GameContext);
 
@@ -41,5 +41,3 @@ const EndGame = () => {
     </div>
   );
 };
-
-export default EndGame;

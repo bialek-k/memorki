@@ -3,7 +3,7 @@ import styles from "./TimeControl.module.scss";
 import useLocalStorage from "../../../hooks/useLocalStorage";
 import { GameContext } from "../../../store/game-context";
 
-const TimeControl = () => {
+export const TimeControl = () => {
   const { setOpenCardsTime } = useContext(GameContext);
   const { value, setValue } = useLocalStorage("open-time");
 
@@ -38,5 +38,3 @@ const TimeControl = () => {
     </label>
   );
 };
-
-export default TimeControl;
