@@ -1,7 +1,7 @@
 <div id="top"></div>
 
 <div align="center">
-<img width="650px" src="https://user-images.githubusercontent.com/57173170/216522698-bef58157-c45f-4676-86a9-e4096bff5e1a.png" />
+<img width="600px" src="https://user-images.githubusercontent.com/57173170/216522698-bef58157-c45f-4676-86a9-e4096bff5e1a.png" />
 </div>
 
 <!-- PROJECT LOGO -->
